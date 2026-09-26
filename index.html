@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +8,26 @@
   <meta name="description" content="Danh sách bài tập lập trình Web — chọn bài và xem trực tiếp.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --bg: #07070f;
       --surface: #111118;
-      --border: rgba(255,255,255,0.07);
+      --border: rgba(255, 255, 255, 0.07);
       --text: #e8e8f0;
       --muted: #6b6b88;
       --accent: #7c6ef5;
       --accent2: #b084f7;
-      --glow: rgba(124,110,245,0.18);
+      --glow: rgba(124, 110, 245, 0.18);
     }
 
     body {
@@ -36,8 +44,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 10% 10%, rgba(124,110,245,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(176,132,247,0.08) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 60% at 10% 10%, rgba(124, 110, 245, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(176, 132, 247, 0.08) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
@@ -60,8 +68,8 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--accent2);
-      background: rgba(124,110,245,0.12);
-      border: 1px solid rgba(124,110,245,0.25);
+      background: rgba(124, 110, 245, 0.12);
+      border: 1px solid rgba(124, 110, 245, 0.25);
       padding: 6px 14px;
       border-radius: 100px;
       margin-bottom: 28px;
@@ -95,7 +103,9 @@
       gap: 20px;
     }
 
-    .lesson-item { display: contents; }
+    .lesson-item {
+      display: contents;
+    }
 
     /* Card */
     .lesson {
@@ -113,20 +123,28 @@
     }
 
     /* Gradient top strip per card */
-    .lesson:nth-child(1)::before { background: linear-gradient(90deg, #7c6ef5, #b084f7); }
-    .lesson:nth-child(2)::before { background: linear-gradient(90deg, #f472b6, #fb7185); }
+    .lesson:nth-child(1)::before {
+      background: linear-gradient(90deg, #7c6ef5, #b084f7);
+    }
+
+    .lesson:nth-child(2)::before {
+      background: linear-gradient(90deg, #f472b6, #fb7185);
+    }
+
     .lesson::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 2px;
     }
 
     /* Glow on hover */
     .lesson:hover {
-      border-color: rgba(124,110,245,0.4);
+      border-color: rgba(124, 110, 245, 0.4);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,110,245,0.15);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(124, 110, 245, 0.15);
     }
 
     .lesson:focus-visible {
@@ -143,8 +161,8 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--accent2);
-      background: rgba(124,110,245,0.12);
-      border: 1px solid rgba(124,110,245,0.2);
+      background: rgba(124, 110, 245, 0.12);
+      border: 1px solid rgba(124, 110, 245, 0.2);
       padding: 5px 11px;
       border-radius: 100px;
       margin-bottom: 24px;
@@ -179,15 +197,17 @@
     }
 
     .cta-arrow {
-      width: 30px; height: 30px;
+      width: 30px;
+      height: 30px;
       border-radius: 8px;
-      background: rgba(124,110,245,0.15);
-      border: 1px solid rgba(124,110,245,0.25);
+      background: rgba(124, 110, 245, 0.15);
+      border: 1px solid rgba(124, 110, 245, 0.25);
       display: grid;
       place-items: center;
       font-size: 14px;
       transition: background .2s, transform .2s;
     }
+
     .lesson:hover .cta-arrow {
       background: var(--accent);
       transform: translateX(3px);
@@ -195,22 +215,36 @@
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
-      main { padding: 60px 0 60px; }
-      .lessons { grid-template-columns: 1fr; }
-      .lesson { padding: 26px; }
+      main {
+        padding: 60px 0 60px;
+      }
+
+      .lessons {
+        grid-template-columns: 1fr;
+      }
+
+      .lesson {
+        padding: 26px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .lesson { transition: none; }
-      .cta-arrow { transition: none; }
+      .lesson {
+        transition: none;
+      }
+
+      .cta-arrow {
+        transition: none;
+      }
     }
   </style>
 </head>
+
 <body>
   <main>
     <header>
       <p class="eyebrow">✦ Lập trình Web</p>
-      <h1>Bài tập<br>của tôi</h1>
+      <h1>Bài tập web</h1>
       <p class="intro">Chọn một bài bên dưới để mở và xem toàn bộ nội dung bài tập.</p>
     </header>
 
@@ -220,7 +254,8 @@
           <a class="lesson" href="./b1/index.html" id="lesson-1">
             <span class="lesson-badge">Bài 1</span>
             <h2 class="lesson-title">Quick Notes</h2>
-            <p class="lesson-desc">Ứng dụng ghi chú hiện đại: thêm, tìm kiếm, chỉnh sửa và quản lý các ghi chú của bạn với giao diện tối đẹp mắt.</p>
+            <p class="lesson-desc">Ứng dụng ghi chú hiện đại: thêm, tìm kiếm, chỉnh sửa và quản lý các ghi chú của bạn
+              với giao diện tối đẹp mắt.</p>
             <div class="lesson-cta">
               <span>Mở bài tập</span>
               <span class="cta-arrow" aria-hidden="true">→</span>
@@ -231,7 +266,8 @@
           <a class="lesson" href="./baitapHTML/index.html" id="lesson-2">
             <span class="lesson-badge">Bài 2</span>
             <h2 class="lesson-title">Bài tập HTML</h2>
-            <p class="lesson-desc">Website nhiều trang gồm Home, About, News và Blog — xây dựng bằng HTML thuần với cấu trúc semantic chuẩn.</p>
+            <p class="lesson-desc">Website nhiều trang gồm Home, About, News và Blog — xây dựng bằng HTML thuần với cấu
+              trúc semantic chuẩn.</p>
             <div class="lesson-cta">
               <span>Mở bài tập</span>
               <span class="cta-arrow" aria-hidden="true">→</span>
@@ -242,4 +278,5 @@
     </nav>
   </main>
 </body>
+
 </html>
