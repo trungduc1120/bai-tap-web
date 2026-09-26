@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noted — Ghi chú của bạn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f13;
+  --surface: #1a1a24;
+  --surface2: #22222f;
+  --border: rgba(255,255,255,0.08);
+  --border-hover: rgba(120,110,255,0.5);
+  --text: #ececf1;
+  --muted: #7a7a9d;
+  --accent: #786cf7;
+  --accent2: #a78bfa;
+  --accent-glow: rgba(120,108,247,0.25);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,0.12);
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --radius: 14px;
+  --input-bg: #13131c;
+}
+body.light {
+  --bg: #f0f0f8;
+  --surface: #ffffff;
+  --surface2: #f5f4ff;
+  --border: rgba(0,0,0,0.08);
+  --border-hover: rgba(120,108,247,0.45);
+  --text: #18182a;
+  --muted: #6e6e9a;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --input-bg: #fafaff;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background .3s, color .3s;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.brand-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.sidebar-section {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.note-count-badge {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.note-count-badge strong {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent2);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.theme-toggle {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: border-color .2s, background .2s;
+  width: 100%;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.main {
+  flex: 1;
+  padding: 40px 48px;
+  max-width: 900px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+
+.search-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+#searchInput::placeholder { color: var(--muted); }
+#searchInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.btn-primary {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  transition: opacity .2s, transform .15s;
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+.btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+.overlay.active { display: flex; animation: fadeIn .2s; }
+
+@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+@keyframes slideUp { from { opacity:0; transform: translateY(20px) } to { opacity:1; transform: translateY(0) } }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  width: min(90vw, 520px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: slideUp .25s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  transition: color .2s, background .2s;
+}
+.close-btn:hover { color: var(--text); background: var(--border); }
+
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 8px;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.form-textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.btn-ghost {
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.btn-ghost:hover { background: var(--surface2); border-color: var(--border-hover); }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.note-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--card-shadow);
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  position: relative;
+  overflow: hidden;
+}
+.note-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.note-card:nth-child(4n+1)::before { background: linear-gradient(90deg, #786cf7, #a78bfa); }
+.note-card:nth-child(4n+2)::before { background: linear-gradient(90deg, #f472b6, #fb7185); }
+.note-card:nth-child(4n+3)::before { background: linear-gradient(90deg, #34d399, #10b981); }
+.note-card:nth-child(4n+4)::before { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
+
+.note-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
+
+.note-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.note-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.note-date {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.note-actions {
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.note-card:hover .note-actions { opacity: 1; }
+
+.icon-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  transition: all .2s;
+}
+.icon-btn.edit:hover { color: var(--accent2); border-color: var(--accent); background: var(--accent-glow); }
+.icon-btn.del:hover { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  color: var(--muted);
+  gap: 12px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  opacity: .4;
+  margin-bottom: 4px;
+}
+
+.empty-state p { font-size: 14px; line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { padding: 24px 20px; }
+  .top-bar { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">📝</div>
+      <span class="brand-name">Noted</span>
+    </div>
+
+    <div class="sidebar-section">Tổng quan</div>
+    <div class="note-count-badge">
+      <span>Ghi chú</span>
+      <strong id="noteCountDisplay">0</strong>
+    </div>
+
+    <div class="sidebar-bottom">
+      <button class="theme-toggle" id="themeBtn">
+        <span id="themeIcon">☀️</span>
+        <span id="themeLabel">Light mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="top-bar">
+      <div class="search-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm ghi chú...">
+      </div>
+      <button class="btn-primary" id="addNoteBtn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Thêm ghi chú
+      </button>
+    </div>
+
+    <div class="section-header">
+      <span class="section-title" id="sectionLabel">Tất cả ghi chú</span>
+    </div>
+
+    <div class="notes-grid" id="notesGrid"></div>
+  </div>
+</div>
+
+<div class="overlay" id="noteOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-header">
+      <span class="modal-title" id="modalTitle">Ghi chú mới</span>
+      <button class="close-btn" id="closeModal" aria-label="Đóng">✕</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="noteTitle">Tiêu đề</label>
+      <input class="form-input" type="text" id="noteTitle" placeholder="Nhập tiêu đề...">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="noteContent">Nội dung</label>
+      <textarea class="form-textarea" id="noteContent" placeholder="Gõ ghi chú ở đây..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" id="cancelBtn">Huỷ</button>
+      <button class="btn-primary" id="saveNoteBtn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+        Lưu
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let notes = JSON.parse(localStorage.getItem('noted_notes')) || [];
+let editingId = null;
+
+const overlay      = document.getElementById('noteOverlay');
+const modalTitle   = document.getElementById('modalTitle');
+const noteTitle    = document.getElementById('noteTitle');
+const noteContent  = document.getElementById('noteContent');
+const saveNoteBtn  = document.getElementById('saveNoteBtn');
+const addNoteBtn   = document.getElementById('addNoteBtn');
+const closeModal   = document.getElementById('closeModal');
+const cancelBtn    = document.getElementById('cancelBtn');
+const notesGrid    = document.getElementById('notesGrid');
+const searchInput  = document.getElementById('searchInput');
+const noteCount    = document.getElementById('noteCountDisplay');
+const sectionLabel = document.getElementById('sectionLabel');
+const themeBtn     = document.getElementById('themeBtn');
+const themeIcon    = document.getElementById('themeIcon');
+const themeLabel   = document.getElementById('themeLabel');
+
+function applyTheme(isLight) {
+  document.body.classList.toggle('light', isLight);
+  themeIcon.textContent  = isLight ? '🌙' : '☀️';
+  themeLabel.textContent = isLight ? 'Dark mode' : 'Light mode';
+  localStorage.setItem('noted_theme', isLight ? 'light' : 'dark');
+}
+
+const savedTheme = localStorage.getItem('noted_theme');
+applyTheme(savedTheme === 'light');
+
+themeBtn.addEventListener('click', () => {
+  applyTheme(!document.body.classList.contains('light'));
+});
+
+function openModal(note) {
+  editingId = note ? note.id : null;
+  modalTitle.textContent  = note ? 'Chỉnh sửa ghi chú' : 'Ghi chú mới';
+  noteTitle.value   = note ? note.title : '';
+  noteContent.value = note ? note.content : '';
+  overlay.classList.add('active');
+  setTimeout(() => noteTitle.focus(), 50);
+}
+
+function closeModalFn() {
+  overlay.classList.remove('active');
+  editingId = null;
+}
+
+addNoteBtn.addEventListener('click', () => openModal(null));
+closeModal.addEventListener('click', closeModalFn);
+cancelBtn.addEventListener('click', closeModalFn);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModalFn(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalFn(); });
+
+saveNoteBtn.addEventListener('click', () => {
+  const title   = noteTitle.value.trim();
+  const content = noteContent.value.trim();
+  if (!title && !content) {
+    noteTitle.style.borderColor = '#f87171';
+    noteTitle.focus();
+    setTimeout(() => noteTitle.style.borderColor = '', 1200);
+    return;
+  }
+
+  if (editingId !== null) {
+    const idx = notes.findIndex(n => n.id === editingId);
+    if (idx !== -1) {
+      notes[idx].title     = title || 'Không có tiêu đề';
+      notes[idx].content   = content;
+      notes[idx].updatedAt = new Date().toLocaleString('vi-VN');
+    }
+  } else {
+    notes.unshift({
+      id: Date.now(),
+      title: title || 'Không có tiêu đề',
+      content,
+      createdAt: new Date().toLocaleString('vi-VN'),
+    });
+  }
+
+  localStorage.setItem('noted_notes', JSON.stringify(notes));
+  render();
+  closeModalFn();
+});
+
+function deleteNote(id) {
+  if (!confirm('Xoá ghi chú này?')) return;
+  notes = notes.filter(n => n.id !== id);
+  localStorage.setItem('noted_notes', JSON.stringify(notes));
+  render();
+}
+
+function editNote(id) {
+  const note = notes.find(n => n.id === id);
+  if (note) openModal(note);
+}
+
+function esc(t) {
+  const d = document.createElement('div');
+  d.textContent = t;
+  return d.innerHTML;
+}
+
+function render() {
+  const q = searchInput.value.trim().toLowerCase();
+  const filtered = q
+    ? notes.filter(n => n.title.toLowerCase().includes(q) || n.content.toLowerCase().includes(q))
+    : notes;
+
+  noteCount.textContent = notes.length;
+  sectionLabel.textContent = q
+    ? `Kết quả cho "${q}" (${filtered.length})`
+    : `Tất cả ghi chú (${notes.length})`;
+
+  if (filtered.length === 0) {
+    notesGrid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">${q ? '🔍' : '📋'}</div>
+        <strong>${q ? 'Không tìm thấy ghi chú nào.' : 'Chưa có ghi chú nào.'}</strong>
+        <p>${q ? 'Thử từ khoá khác nhé.' : 'Nhấn "+ Thêm ghi chú" để bắt đầu.'}</p>
+      </div>`;
+    return;
+  }
+
+  notesGrid.innerHTML = '';
+  filtered.forEach(note => {
+    const card = document.createElement('div');
+    card.className = 'note-card';
+    const dateLabel = note.updatedAt
+      ? `Sửa lúc ${esc(note.updatedAt)}`
+      : esc(note.createdAt);
+
+    card.innerHTML = `
+      <div class="note-title">${esc(note.title)}</div>
+      <div class="note-body">${esc(note.content) || '<em style="opacity:.5">Không có nội dung.</em>'}</div>
+      <div class="note-footer">
+        <span class="note-date">${dateLabel}</span>
+        <div class="note-actions">
+          <button class="icon-btn edit" title="Sửa" onclick="editNote(${note.id})">✏️</button>
+          <button class="icon-btn del"  title="Xoá" onclick="deleteNote(${note.id})">🗑️</button>
+        </div>
+      </div>`;
+    notesGrid.appendChild(card);
+  });
+}
+
+searchInput.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>
