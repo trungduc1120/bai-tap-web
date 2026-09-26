@@ -873,3 +873,126 @@ legend {
     min-width: 100%;
   }
 }
+
+/* ==========================================
+   ABOUT & GALLERY STYLES (about.html)
+   ========================================== */
+#gallery {
+  margin-bottom: 20px;
+}
+
+#gallery img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border: 1px solid #c9a96e;
+  border-radius: 3px;
+  display: block;
+}
+
+#about h4 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4a3c31;
+  margin: 18px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed #d4b87a;
+  font-family: Georgia, serif;
+}
+
+#about h4:first-child {
+  margin-top: 0;
+}
+
+/* ==========================================
+   BLOG & PAGINATION STYLES (blog.html)
+   ========================================== */
+#list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+#list li {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #d4b87a;
+}
+
+#list li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+#list .time {
+  display: inline-block;
+  font-size: 11px;
+  color: #8a7a6a;
+  background: rgba(196, 150, 48, 0.2);
+  border: 1px solid #d4b87a;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#list h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4a3c31;
+  margin-bottom: 8px;
+  font-family: Georgia, serif;
+}
+
+#list p {
+  font-size: 13px;
+  color: #5a4a3a;
+  margin-bottom: 10px;
+  line-height: 1.7;
+}
+
+#list .more {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #3d8b37;
+  transition: transform 0.2s;
+}
+
+#list .more:hover {
+  transform: translateX(3px);
+  text-decoration: underline;
+}
+
+#pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  padding-top: 15px;
+  border-top: 1px solid #d4b87a;
+}
+
+#pagination a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  background: #fdf6e3;
+  border: 1px solid #c9a96e;
+  border-radius: 3px;
+  color: #4a3c31;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+#pagination a:hover {
+  background: linear-gradient(180deg, #5a9e3f, #3d7a2a);
+  color: white;
+  border-color: #2d6b1e;
+}
