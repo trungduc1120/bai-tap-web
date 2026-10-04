@@ -1,0 +1,30 @@
+**Context:**\
+Tôi đã hoàn thành phần HTML cho một trang khuyến mãi Tết. HTML hiện đã đúng cấu trúc nội dung và semantic, vì vậy **không được thay đổi cấu trúc HTML nếu không thực sự cần thiết**. Hiện tại trang web đang gặp một số lỗi về CSS và bố cục hiển thị.
+
+**Role:**\
+Bạn là một Front-end Developer có kinh nghiệm về HTML5, CSS3, Flexbox, Grid và CSS Positioning.
+
+**Action:**
+Hãy kiểm tra và sửa CSS để trang web đáp ứng chính xác các yêu cầu sau:
+
+1. Thanh menu trên cùng phải sử dụng cơ chế **sticky**, vẫn bám ở phía trên màn hình khi người dùng cuộn trang và luôn hiển thị phía trên ảnh hoặc các nội dung khác.
+2. Ảnh hero phải phủ kín toàn bộ khung hero, không bị méo. Tiêu đề phải nằm chính giữa ảnh theo cả chiều ngang và chiều dọc.
+3. Ba thẻ sản phẩm phải nằm trên **cùng một hàng ngang**.
+4. Mỗi thẻ sản phẩm phải là vùng định vị riêng để nhãn **"-20%"** nằm ở góc trên bên phải của **chính thẻ đó**, không bị lệch sang thẻ khác hoặc toàn bộ trang.
+5. Ảnh và nội dung chữ của sản phẩm phải nằm gọn bên trong thẻ, không bị tràn ra ngoài.
+6. Nút **"↑"** phải nổi cố định ở góc dưới bên phải của màn hình và vẫn giữ nguyên vị trí khi cuộn trang.
+
+Ưu tiên sử dụng đúng các thuộc tính CSS như:\
+`position: sticky`, `position: relative`, `position: absolute`, `position: fixed`, `z-index`, `object-fit`, Flexbox hoặc Grid khi phù hợp.
+
+Không thay đổi nội dung văn bản, không viết lại toàn bộ HTML và không dùng JavaScript nếu CSS có thể giải quyết được.
+
+**Format:**
+
+- Đầu tiên, chỉ ra từng lỗi CSS và giải thích ngắn gọn nguyên nhân.
+- Sau đó cung cấp đoạn CSS đã sửa hoàn chỉnh.
+- Với mỗi phần quan trọng, ghi chú ngắn để giải thích tại sao sử dụng thuộc tính đó.
+- Nếu cần chỉnh rất nhỏ trong HTML, hãy chỉ rõ dòng hoặc phần cần chỉnh thay vì viết lại toàn bộ HTML.
+
+**Tone:**\
+Giải thích rõ ràng, ngắn gọn, dễ hiểu cho sinh viên đang học HTML/CSS.
