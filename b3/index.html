@@ -4,12 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mục lục bài tập Web</title>
-  <meta name="description" content="Danh sách bài tập lập trình Web — chọn bài và xem trực tiếp.">
+  <title>Bài 3 — Tìm và sửa lỗi CSS</title>
+  <meta name="description" content="Danh sách bài tập Tìm và sửa lỗi CSS (Box Model & Position).">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *,
     *::before,
@@ -25,9 +24,8 @@
       --border: rgba(255, 255, 255, 0.07);
       --text: #e8e8f0;
       --muted: #6b6b88;
-      --accent: #7c6ef5;
-      --accent2: #b084f7;
-      --glow: rgba(124, 110, 245, 0.18);
+      --accent: #34d399;
+      --accent2: #10b981;
     }
 
     body {
@@ -38,14 +36,13 @@
       overflow-x: hidden;
     }
 
-    /* ── Ambient background ── */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 10% 10%, rgba(124, 110, 245, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(176, 132, 247, 0.08) 0%, transparent 50%);
+        radial-gradient(ellipse 80% 60% at 10% 10%, rgba(52, 211, 153, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
@@ -55,10 +52,25 @@
       z-index: 1;
       width: min(100% - 48px, 860px);
       margin: 0 auto;
-      padding: 90px 0 80px;
+      padding: 60px 0 80px;
     }
 
-    /* ── Header ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      transition: color .2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -67,21 +79,21 @@
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--accent2);
-      background: rgba(124, 110, 245, 0.12);
-      border: 1px solid rgba(124, 110, 245, 0.25);
+      color: var(--accent);
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.25);
       padding: 6px 14px;
       border-radius: 100px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     h1 {
-      font-size: clamp(36px, 6vw, 56px);
+      font-size: clamp(32px, 5vw, 48px);
       font-weight: 800;
-      letter-spacing: -2px;
-      line-height: 1.1;
-      margin-bottom: 18px;
-      background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -91,11 +103,10 @@
       font-size: 16px;
       color: var(--muted);
       line-height: 1.75;
-      max-width: 480px;
-      margin-bottom: 60px;
+      max-width: 520px;
+      margin-bottom: 48px;
     }
 
-    /* ── Grid ── */
     .lessons {
       list-style: none;
       display: grid;
@@ -107,7 +118,6 @@
       display: contents;
     }
 
-    /* Card */
     .lesson {
       display: flex;
       flex-direction: column;
@@ -122,17 +132,12 @@
       transition: border-color .25s, transform .25s, box-shadow .25s;
     }
 
-    /* Gradient top strip per card */
     .lesson:nth-child(1)::before {
-      background: linear-gradient(90deg, #7c6ef5, #b084f7);
+      background: linear-gradient(90deg, #34d399, #10b981);
     }
 
     .lesson:nth-child(2)::before {
-      background: linear-gradient(90deg, #f472b6, #fb7185);
-    }
-
-    .lesson:nth-child(3)::before {
-      background: linear-gradient(90deg, #34d399, #10b981);
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
     }
 
     .lesson::before {
@@ -144,11 +149,10 @@
       height: 2px;
     }
 
-    /* Glow on hover */
     .lesson:hover {
-      border-color: rgba(124, 110, 245, 0.4);
+      border-color: rgba(52, 211, 153, 0.4);
       transform: translateY(-4px);
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(124, 110, 245, 0.15);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(52, 211, 153, 0.15);
     }
 
     .lesson:focus-visible {
@@ -164,9 +168,9 @@
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
-      color: var(--accent2);
-      background: rgba(124, 110, 245, 0.12);
-      border: 1px solid rgba(124, 110, 245, 0.2);
+      color: var(--accent);
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.2);
       padding: 5px 11px;
       border-radius: 100px;
       margin-bottom: 24px;
@@ -174,7 +178,7 @@
     }
 
     .lesson-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       letter-spacing: -0.5px;
       line-height: 1.3;
@@ -197,15 +201,15 @@
       border-top: 1px solid var(--border);
       font-size: 13px;
       font-weight: 600;
-      color: var(--accent2);
+      color: var(--accent);
     }
 
     .cta-arrow {
       width: 30px;
       height: 30px;
       border-radius: 8px;
-      background: rgba(124, 110, 245, 0.15);
-      border: 1px solid rgba(124, 110, 245, 0.25);
+      background: rgba(52, 211, 153, 0.15);
+      border: 1px solid rgba(52, 211, 153, 0.25);
       display: grid;
       place-items: center;
       font-size: 14px;
@@ -214,31 +218,13 @@
 
     .lesson:hover .cta-arrow {
       background: var(--accent);
+      color: #000;
       transform: translateX(3px);
     }
 
-    /* ── Responsive ── */
     @media (max-width: 600px) {
-      main {
-        padding: 60px 0 60px;
-      }
-
       .lessons {
         grid-template-columns: 1fr;
-      }
-
-      .lesson {
-        padding: 26px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .lesson {
-        transition: none;
-      }
-
-      .cta-arrow {
-        transition: none;
       }
     }
   </style>
@@ -246,45 +232,33 @@
 
 <body>
   <main>
+    <a href="../" class="back-link">← Quay lại danh sách bài tập</a>
     <header>
-      <p class="eyebrow">✦ Lập trình Web</p>
-      <h1>Bài tập web</h1>
-      <p class="intro">Chọn một bài bên dưới để mở và xem toàn bộ nội dung bài tập.</p>
+      <p class="eyebrow">✦ Bài 3 — CSS Fix</p>
+      <h1>Tìm và sửa lỗi CSS</h1>
+      <p class="intro">Chọn một bài thực hành bên dưới để xem nội dung chi tiết.</p>
     </header>
 
-    <nav aria-label="Danh sách bài tập">
+    <nav aria-label="Danh sách bài tập nhỏ">
       <ol class="lessons">
         <li class="lesson-item">
-          <a class="lesson" href="./b1/index.html" id="lesson-1">
-            <span class="lesson-badge">Bài 1</span>
-            <h2 class="lesson-title">Quick Notes</h2>
-            <p class="lesson-desc">Ứng dụng ghi chú hiện đại: thêm, tìm kiếm, chỉnh sửa và quản lý các ghi chú của bạn
-              với giao diện tối đẹp mắt.</p>
+          <a class="lesson" href="./Bai-tap-1-Tim-va-sua-loi-CSS/trang.html">
+            <span class="lesson-badge">Hoạt động 1</span>
+            <h2 class="lesson-title">Bài tập 1: Tự thực hiện</h2>
+            <p class="lesson-desc">Tìm và sửa các lỗi CSS liên quan đến Box Model và Position trên giao diện khuyến mãi thiệp Tết 2026.</p>
             <div class="lesson-cta">
-              <span>Mở bài tập</span>
+              <span>Xem bài tập</span>
               <span class="cta-arrow" aria-hidden="true">→</span>
             </div>
           </a>
         </li>
         <li class="lesson-item">
-          <a class="lesson" href="./b2/" id="lesson-2">
-            <span class="lesson-badge">Bài 2</span>
-            <h2 class="lesson-title">Bài tập HTML</h2>
-            <p class="lesson-desc">Website nhiều trang gồm Home, About, Blog, Media và Register — xây dựng bằng HTML thuần với cấu
-              trúc semantic chuẩn.</p>
+          <a class="lesson" href="./Bai-tap-2-Tim-va-sua-loi-CSS/trang.html">
+            <span class="lesson-badge">Hoạt động 2</span>
+            <h2 class="lesson-title">Bài tập 2: Dùng GenAI</h2>
+            <p class="lesson-desc">Phát hiện và sửa các lỗi CSS tinh vi bằng DevTools kết hợp hỗ trợ của Generative AI.</p>
             <div class="lesson-cta">
-              <span>Mở bài tập</span>
-              <span class="cta-arrow" aria-hidden="true">→</span>
-            </div>
-          </a>
-        </li>
-        <li class="lesson-item">
-          <a class="lesson" href="./b3/" id="lesson-3">
-            <span class="lesson-badge">Bài 3</span>
-            <h2 class="lesson-title">Tìm và sửa lỗi CSS</h2>
-            <p class="lesson-desc">Thực hành tìm và khắc phục các lỗi CSS liên quan đến Box Model và Position trên trang khuyến mãi thiệp Tết.</p>
-            <div class="lesson-cta">
-              <span>Mở bài tập</span>
+              <span>Xem bài tập</span>
               <span class="cta-arrow" aria-hidden="true">→</span>
             </div>
           </a>
