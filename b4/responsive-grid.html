@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>CSS Grid</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --surface:#ffffff; --surface-2:#fbfbfd; --text:#1b1f27;
+    --muted:#6b7280; --border:#e3e6ec; --accent:#6d5efc; --accent-weak:#efedff;
+    --code-bg:#f7f7fb;
+    --cell:#e6f1fb; --cell-bd:#378add; --cell-tx:#0c447c;
+    --span:#faeeda; --span-bd:#ba7517; --span-tx:#633806;
+    --area-h:#e6f1fb; --area-h-bd:#378add;
+    --area-s:#e1f5ee; --area-s-bd:#1d9e75;
+    --area-m:#f1efe8; --area-m-bd:#888780;
+    --area-f:#eeedfe; --area-f-bd:#7f77dd;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    box-sizing:border-box; padding-top:env(safe-area-inset-top,0px);
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme:dark){
+      --bg:#14151a; --surface:#1c1e26; --surface-2:#23252f; --text:#e7e9ee;
+      --muted:#9aa0ac; --border:#2c2f3a; --accent:#9d8dff; --accent-weak:#262338;
+      --code-bg:#191b22;
+      --cell:#0c447c; --cell-bd:#85b7eb; --cell-tx:#e6f1fb;
+      --span:#633806; --span-bd:#ef9f27; --span-tx:#faeeda;
+      --area-h:#0c447c; --area-h-bd:#85b7eb;
+      --area-s:#085041; --area-s-bd:#5dcaa5;
+      --area-m:#444441; --area-m-bd:#b4b2a9;
+      --area-f:#3c3489; --area-f-bd:#afa9ec;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14151a; --surface:#1c1e26; --surface-2:#23252f; --text:#e7e9ee;
+    --muted:#9aa0ac; --border:#2c2f3a; --accent:#9d8dff; --accent-weak:#262338;
+    --code-bg:#191b22;
+    --cell:#0c447c; --cell-bd:#85b7eb; --cell-tx:#e6f1fb;
+    --span:#633806; --span-bd:#ef9f27; --span-tx:#faeeda;
+    --area-h:#0c447c; --area-h-bd:#85b7eb;
+    --area-s:#085041; --area-s-bd:#5dcaa5;
+    --area-m:#444441; --area-m-bd:#b4b2a9;
+    --area-f:#3c3489; --area-f-bd:#afa9ec;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:28px 18px 56px}
+  h1{font-size:clamp(22px,4vw,30px);margin:0 0 4px;letter-spacing:-.02em;font-weight:650}
+  .sub{color:var(--muted);margin:0 0 18px;font-size:15px}
+  .tabs{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:18px}
+  .tabs button{border:0;background:var(--surface-2);color:var(--text);padding:9px 16px;font:inherit;font-size:14px;cursor:pointer}
+  .tabs button.on{background:var(--accent);color:#fff}
+  .panel{display:none}
+  .panel.on{display:block}
+  .layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+  @media (max-width:720px){.layout{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+  .card h2{font-size:13px;margin:0 0 12px;font-weight:600;color:var(--muted)}
+  .ctrl{margin-bottom:16px}
+  .ctrl:last-child{margin-bottom:0}
+  .ctrl > label{display:block;font-weight:550;font-size:14px;margin-bottom:6px}
+  .seg{display:flex;flex-direction:column;gap:6px}
+  .seg button{border:1px solid var(--border);background:var(--surface-2);color:var(--text);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:12.5px;cursor:pointer;text-align:left}
+  .seg button.on{border-color:var(--accent);background:var(--accent-weak);color:var(--accent)}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .val{font-family:var(--mono);font-size:12.5px;color:var(--muted);float:right}
+  .hint{font-size:12.5px;color:var(--muted);margin:6px 0 0}
+  /* grid canvas */
+  .canvas{background:var(--surface-2);border:1px dashed var(--border);border-radius:10px;padding:10px;min-height:260px}
+  .grid{display:grid}
+  .cell{background:var(--cell);border:1px solid var(--cell-bd);color:var(--cell-tx);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-weight:600;font-size:18px;cursor:pointer;
+    min-height:68px;user-select:none;transition:transform .08s}
+  .cell:hover{transform:scale(0.98)}
+  .cell.span{background:var(--span);border-color:var(--span-bd);color:var(--span-tx)}
+  .area{border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;border:1px solid}
+  .a-header{background:var(--area-h);border-color:var(--area-h-bd)}
+  .a-side{background:var(--area-s);border-color:var(--area-s-bd)}
+  .a-main{background:var(--area-m);border-color:var(--area-m-bd)}
+  .a-footer{background:var(--area-f);border-color:var(--area-f-bd)}
+  pre{margin:12px 0 0;background:var(--code-bg);border:1px solid var(--border);border-radius:12px;
+    padding:12px 14px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7}
+  .cl{white-space:pre;display:block;border-radius:4px}
+  .cl.hi{background:var(--accent-weak);box-shadow:inset 3px 0 0 var(--accent);padding-left:6px;margin-left:-6px}
+  .section-label{font-size:13px;font-weight:600;color:var(--muted);margin:18px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>CSS Grid</h1>
+  <p class="sub">Chỉnh các điều khiển và quan sát lưới thay đổi; khối mã bên dưới cập nhật trực tiếp.</p>
+
+  <div class="tabs">
+    <button data-tab="tracks" class="on">Tracks &amp; ô trải (span)</button>
+    <button data-tab="areas">Bố cục bằng areas</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="panel on" id="panel-tracks">
+    <div class="layout">
+      <div class="card">
+        <h2>Điều khiển</h2>
+        <div class="ctrl">
+          <label>grid-template-columns</label>
+          <div class="seg" id="colsSeg">
+            <button data-cols="repeat(3, 1fr)" class="on">repeat(3, 1fr)</button>
+            <button data-cols="200px 1fr">200px 1fr</button>
+            <button data-cols="1fr 2fr 1fr">1fr 2fr 1fr</button>
+            <button data-cols="repeat(auto-fit, minmax(110px, 1fr))">auto-fit minmax(110px,1fr)</button>
+          </div>
+        </div>
+        <div class="ctrl">
+          <label>gap <span class="val" id="gapVal">12px</span></label>
+          <input type="range" id="gap" min="0" max="30" value="12">
+        </div>
+        <div class="ctrl">
+          <label>Số ô <span class="val" id="countVal">6</span></label>
+          <input type="range" id="count" min="3" max="9" value="6">
+        </div>
+        <p class="hint">Bấm vào một ô để nó chiếm <b>2 cột × 2 hàng</b> (bấm lại để hoàn tác). Với preset <code>auto-fit</code>, kéo đổi bề rộng cửa sổ để thấy số cột tự đổi.</p>
+      </div>
+      <div class="card">
+        <h2>Kết quả</h2>
+        <div class="canvas"><div class="grid" id="grid1"></div></div>
+        <pre id="code1"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="panel" id="panel-areas">
+    <div class="layout">
+      <div class="card">
+        <h2>Chế độ hiển thị</h2>
+        <div class="ctrl">
+          <div class="seg" id="modeSeg">
+            <button data-mode="desktop" class="on">Desktop (2 cột)</button>
+            <button data-mode="mobile">Mobile (xếp dọc)</button>
+          </div>
+        </div>
+        <p class="hint">Cùng một HTML (4 vùng: header, sidebar, main, footer). Chuyển Desktop/Mobile mô phỏng việc <b>định nghĩa lại <code>grid-template-areas</code></b> trong media query — chỉ CSS đổi, cấu trúc HTML giữ nguyên.</p>
+      </div>
+      <div class="card">
+        <h2>Kết quả</h2>
+        <div class="canvas" style="min-height:300px"><div class="grid" id="grid2" style="height:300px"></div></div>
+        <pre id="code2"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- TAB 1 ----------
+const s1 = {cols:'repeat(3, 1fr)', gap:12, count:6, span:null};
+const grid1 = document.getElementById('grid1');
+const code1 = document.getElementById('code1');
+
+document.getElementById('colsSeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  s1.cols=b.dataset.cols; s1.span=null;
+  document.querySelectorAll('#colsSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  render1();
+});
+document.getElementById('gap').addEventListener('input',e=>{s1.gap=+e.target.value;document.getElementById('gapVal').textContent=s1.gap+'px';render1();});
+document.getElementById('count').addEventListener('input',e=>{s1.count=+e.target.value;document.getElementById('countVal').textContent=s1.count;s1.span=null;render1();});
+
+function line(text,hi){const d=document.createElement('span');d.className='cl'+(hi?' hi':'');d.textContent=text;return d;}
+
+function render1(){
+  grid1.style.gridTemplateColumns=s1.cols;
+  grid1.style.gap=s1.gap+'px';
+  grid1.style.gridAutoRows='72px';
+  grid1.innerHTML='';
+  for(let i=0;i<s1.count;i++){
+    const c=document.createElement('div');
+    c.className='cell'+(i===s1.span?' span':'');
+    c.textContent=i+1;
+    if(i===s1.span){c.style.gridColumn='span 2';c.style.gridRow='span 2';}
+    c.addEventListener('click',()=>{s1.span=(s1.span===i?null:i);render1();});
+    grid1.appendChild(c);
+  }
+  // code
+  code1.innerHTML='';
+  code1.appendChild(line('.grid {'));
+  code1.appendChild(line('  display: grid;'));
+  code1.appendChild(line('  grid-template-columns: '+s1.cols+';'));
+  code1.appendChild(line('  gap: '+s1.gap+'px;'));
+  code1.appendChild(line('  grid-auto-rows: 72px;'));
+  code1.appendChild(line('}'));
+  if(s1.span!==null){
+    code1.appendChild(line('.item-'+(s1.span+1)+' {',true));
+    code1.appendChild(line('  grid-column: span 2;',true));
+    code1.appendChild(line('  grid-row: span 2;',true));
+    code1.appendChild(line('}',true));
+  }
+}
+
+// ---------- TAB 2 ----------
+const s2 = {mode:'desktop'};
+const grid2 = document.getElementById('grid2');
+const code2 = document.getElementById('code2');
+
+document.getElementById('modeSeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  s2.mode=b.dataset.mode;
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  render2();
+});
+
+const areas = {
+  desktop:{
+    cols:'160px 1fr', rows:'auto 1fr auto',
+    tpl:'"header header"\n    "sidebar main"\n    "footer footer"'
+  },
+  mobile:{
+    cols:'1fr', rows:'auto auto 1fr auto',
+    tpl:'"header"\n    "sidebar"\n    "main"\n    "footer"'
+  }
+};
+
+function render2(){
+  const a=areas[s2.mode];
+  grid2.style.gridTemplateColumns=a.cols;
+  grid2.style.gridTemplateRows=a.rows;
+  grid2.style.gridTemplateAreas=a.tpl.replace(/\n\s+/g,' ');
+  grid2.style.gap='10px';
+  grid2.innerHTML='';
+  const parts=[['header','Header','a-header'],['sidebar','Sidebar','a-side'],['main','Main','a-main'],['footer','Footer','a-footer']];
+  parts.forEach(([area,label,cls])=>{
+    const d=document.createElement('div');
+    d.className='area '+cls; d.style.gridArea=area; d.textContent=label;
+    grid2.appendChild(d);
+  });
+  // code
+  code2.innerHTML='';
+  code2.appendChild(line('.layout {'));
+  code2.appendChild(line('  display: grid;'));
+  code2.appendChild(line('  grid-template-columns: '+a.cols+';'));
+  code2.appendChild(line('  grid-template-rows: '+a.rows+';'));
+  code2.appendChild(line('  grid-template-areas:'));
+  a.tpl.split('\n').forEach(l=>code2.appendChild(line('    '+l.trim())));
+  code2.appendChild(line('  gap: 10px;'));
+  code2.appendChild(line('}'));
+}
+
+// ---------- tabs ----------
+document.querySelector('.tabs').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  const t=b.dataset.tab;
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('panel-tracks').classList.toggle('on',t==='tracks');
+  document.getElementById('panel-areas').classList.toggle('on',t==='areas');
+});
+
+render1(); render2();
+</script>
+</body>
+</html>

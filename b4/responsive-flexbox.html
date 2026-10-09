@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox Demo</title>
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;              /* Cho phép xuống dòng khi thiếu chỗ */
+      justify-content: space-between; /* Căn đều ngang, có khoảng cách */
+    }
+    .box {
+      flex: 1 0 200px;  /* Grow, shrink, base width */
+      margin: 10px;
+      background-color: lightblue;
+      text-align: center;
+      padding: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+  </div>
+  <p>👉 Thu nhỏ cửa sổ để thấy các box tự động xuống dòng.</p>
+</body>
+</html>

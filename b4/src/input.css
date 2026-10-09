@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* Thiết lập chung */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    @apply m-0 bg-[#f4f0e7] font-sans text-stone-800;
+}
+
+img {
+    @apply block max-w-full;
+}
+
+/* ================= HEADER ================= */
+
+.site-header {
+    @apply border-b border-stone-300 px-4 py-10 text-center;
+}
+
+.site-name {
+    @apply font-serif text-4xl font-bold tracking-tight
+           text-stone-900 no-underline;
+}
+
+.tagline {
+    @apply mt-2 text-sm uppercase tracking-[0.2em] text-stone-600;
+}
+
+.main-nav ul {
+    @apply mt-6 flex list-none flex-wrap justify-center gap-6 p-0;
+}
+
+.main-nav a {
+    @apply text-sm font-medium text-stone-700 no-underline;
+}
+
+/* ================= LAYOUT CHÍNH ================= */
+
+.layout {
+    @apply mx-auto grid w-full max-w-7xl grid-cols-1
+           gap-8 px-4 py-8;
+}
+
+/*
+Cho các phần tử con của main tham gia trực tiếp
+vào Grid của .layout.
+*/
+main {
+    @apply contents;
+}
+
+/* Các section cơ bản */
+#gioi-thieu,
+#gia-tri,
+#doi-ngu,
+#lien-he,
+.sidebar {
+    @apply min-w-0;
+}
+
+/* Giới thiệu */
+#gioi-thieu {
+    @apply border-b border-stone-300 pb-10;
+}
+
+/* Các khối phía dưới */
+#gia-tri,
+#doi-ngu,
+#lien-he {
+    @apply border-b border-stone-300 pb-8;
+}
+
+/* Sidebar */
+.sidebar {
+    @apply border-l-0 border-stone-300;
+}
